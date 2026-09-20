@@ -1,0 +1,89 @@
+> Play this document as a notebook with the [Sonic Pi Extension for VS Code](https://marketplace.visualstudio.com/items?itemName=jakearl.vscode-sonic-pi
+
+```
+use_bpm 100
+melody = (ring :d4, :e4, :f4, :a4)
+
+live_loop :intro_fixe do
+
+    in_thread(name: :riser) do
+        use_synth :saw
+        sleep 2
+        with_fx :lpf, cutoff: 40, cutoff_slide: 16 do |f|
+            with_fx :level, amp: 0.0, amp_slide: 16 do |l|
+                
+                riser_note = play :D2, sustain: 14, release: 0.5, note_slide: 16, note_slide_shape: 4
+                control riser_note, note: :D5 
+                control f, cutoff: 110     
+                control l, amp: 0.5          
+
+                sleep 14
+            end
+        end
+    end
+
+    8.times do
+        4.times do
+            use_synth :prophet
+            play melody.tick, release: 0.3, amp: 0.5;
+            sleep 0.5
+        end
+    end
+    cue :drop
+
+    sleep 100
+end
+
+live_loop :ajwop, sync: :drop do
+    use_synth :prophet
+    play chord(:d3, :minor), release: 8
+    4.times do
+        play :d4, release: 0.3, amp: 0.5;sleep 0.25
+        play :e4, release: 0.3, amp: 0.5;sleep 0.25
+        play :f4, release: 0.3, amp: 0.5;sleep 0.25
+        play :a4, release: 0.3, amp: 0.5; sleep 0.25
+    end
+    play chord(:Bb3, :major), release: 4
+    2.times do
+        play :d4, release: 0.3, amp: 0.5;sleep 0.25
+        play :e4, release: 0.3, amp: 0.5;sleep 0.25
+        play :f4, release: 0.3, amp: 0.5;sleep 0.25
+        play :a4, release: 0.3, amp: 0.5; sleep 0.25
+    end
+    play chord(:C, :major), release: 4
+    2.times do
+        play :d4, release: 0.3, amp: 0.5;sleep 0.25
+        play :e4, release: 0.3, amp: 0.5;sleep 0.25
+        play :f4, release: 0.3, amp: 0.5;sleep 0.25
+        play :a4, release: 0.3, amp: 0.5; sleep 0.25
+    end
+end
+
+live_loop :drums, sync: :drop do
+    puts tick
+    if tick > 16
+        sample :bd_haus, amp: 0.5
+        sleep 1
+        sample :sn_dolf, amp: 0.5, rate: 1.2
+        sleep 1
+    else
+        sleep 2
+    end
+end
+
+live_loop :basslineig, sync: :drop do
+    use_synth :fm
+    16.times do
+        play :d3, release: 0.5, amp: 0.4
+        sleep 0.5
+    end
+    8.times do
+        play :bb2, release: 0.5, amp: 0.4
+        sleep 0.5
+    end
+    8.times do
+        play :c3, release: 0.5, amp: 0.4
+        sleep 0.5
+    end
+end
+```
