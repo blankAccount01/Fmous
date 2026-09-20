@@ -1,10 +1,12 @@
 > Play this document as a notebook with the [Sonic Pi Extension for VS Code](https://marketplace.visualstudio.com/items?itemName=jakearl.vscode-sonic-pi
 
+
+
 ```
 use_bpm 100
 melody = (ring :d4, :e4, :f4, :a4)
 
-live_loop :intro_fixe do
+live_loop :intro do
 
     in_thread(name: :riser) do
         use_synth :saw
@@ -35,55 +37,69 @@ live_loop :intro_fixe do
 end
 
 live_loop :ajwop, sync: :drop do
+    time = tick
     use_synth :prophet
-    play chord(:d3, :minor), release: 8
-    4.times do
-        play :d4, release: 0.3, amp: 0.5;sleep 0.25
-        play :e4, release: 0.3, amp: 0.5;sleep 0.25
-        play :f4, release: 0.3, amp: 0.5;sleep 0.25
-        play :a4, release: 0.3, amp: 0.5; sleep 0.25
-    end
-    play chord(:Bb3, :major), release: 4
-    2.times do
-        play :d4, release: 0.3, amp: 0.5;sleep 0.25
-        play :e4, release: 0.3, amp: 0.5;sleep 0.25
-        play :f4, release: 0.3, amp: 0.5;sleep 0.25
-        play :a4, release: 0.3, amp: 0.5; sleep 0.25
-    end
-    play chord(:C, :major), release: 4
-    2.times do
-        play :d4, release: 0.3, amp: 0.5;sleep 0.25
-        play :e4, release: 0.3, amp: 0.5;sleep 0.25
-        play :f4, release: 0.3, amp: 0.5;sleep 0.25
-        play :a4, release: 0.3, amp: 0.5; sleep 0.25
+    if time < 24
+        play chord(:d3, :minor), release: 8
+        4.times do
+            play :d4, release: 0.3, amp: 0.5;sleep 0.25
+            play :e4, release: 0.3, amp: 0.5;sleep 0.25
+            play :f4, release: 0.3, amp: 0.5;sleep 0.25
+            play :a4, release: 0.3, amp: 0.5; sleep 0.25
+        end
+        play chord(:Bb3, :major), release: 4
+        2.times do
+            play :d4, release: 0.3, amp: 0.5;sleep 0.25
+            play :e4, release: 0.3, amp: 0.5;sleep 0.25
+            play :f4, release: 0.3, amp: 0.5;sleep 0.25
+            play :a4, release: 0.3, amp: 0.5; sleep 0.25
+        end
+        play chord(:C, :major), release: 4
+        2.times do
+            play :d4, release: 0.3, amp: 0.5;sleep 0.25
+            play :e4, release: 0.3, amp: 0.5;sleep 0.25
+            play :f4, release: 0.3, amp: 0.5;sleep 0.25
+            play :a4, release: 0.3, amp: 0.5; sleep 0.25
+        end
+    else
+        stop
     end
 end
 
 live_loop :drums, sync: :drop do
-    puts tick
-    if tick > 16
-        sample :bd_haus, amp: 0.5
-        sleep 1
-        sample :sn_dolf, amp: 0.5, rate: 1.2
-        sleep 1
+    time = tick
+    if time > 8
+        if time < 24
+            sample :bd_haus, amp: 0.6
+            sleep 1
+            sample :sn_dolf, amp: 0.5, rate: 1.2
+            sleep 1
+        else
+            stop
+        end
     else
         sleep 2
     end
 end
 
 live_loop :basslineig, sync: :drop do
+    time = tick
     use_synth :fm
-    16.times do
-        play :d3, release: 0.5, amp: 0.4
-        sleep 0.5
-    end
-    8.times do
-        play :bb2, release: 0.5, amp: 0.4
-        sleep 0.5
-    end
-    8.times do
-        play :c3, release: 0.5, amp: 0.4
-        sleep 0.5
+    if time < 24
+        16.times do
+            play :d3, release: 0.5, amp: 0.4
+            sleep 0.5
+        end
+        8.times do
+            play :bb2, release: 0.5, amp: 0.4
+            sleep 0.5
+        end
+        8.times do
+            play :c3, release: 0.5, amp: 0.4
+            sleep 0.5
+        end
+    else
+        stop
     end
 end
 ```
